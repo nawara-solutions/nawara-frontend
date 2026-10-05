@@ -1,0 +1,9 @@
+{
+  "duration": {
+    "$description": "Under prefers-reduced-motion: reduce, transitions collapse to 1ms.",
+    "$type": "duration",
+    "fast": { "$value": { "value": 1, "unit": "ms" } },
+    "base": { "$value": { "value": 1, "unit": "ms" } },
+    "slow": { "$value": { "value": 1, "unit": "ms" } }
+  }
+}

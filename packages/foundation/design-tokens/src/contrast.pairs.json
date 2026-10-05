@@ -1,0 +1,64 @@
+{
+  "$description": "Foundation contrast pairs (WCAG 2.2 AA): 4.5 for text, 3 for large text and UI components (1.4.3, 1.4.11). Each group is checked as every foreground on every background, in every theme. These are usage relationships, not token values; products check their own pairs against the manifest.",
+  "groups": [
+    {
+      "foregrounds": [
+        "--nw-text-primary",
+        "--nw-text-secondary",
+        "--nw-text-link",
+        "--nw-text-brand"
+      ],
+      "backgrounds": [
+        "--nw-surface-page",
+        "--nw-surface-raised",
+        "--nw-surface-sunken",
+        "--nw-surface-overlay"
+      ],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-text-primary", "--nw-text-secondary", "--nw-text-brand"],
+      "backgrounds": ["--nw-surface-brand-subtle"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-text-on-primary"],
+      "backgrounds": [
+        "--nw-color-primary",
+        "--nw-color-primary-hover",
+        "--nw-color-primary-active"
+      ],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-text-primary", "--nw-text-secondary"],
+      "backgrounds": ["--nw-color-neutral-hover"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-text-primary"],
+      "backgrounds": ["--nw-color-neutral-active"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-text-brand"],
+      "backgrounds": ["--nw-color-primary-subtle"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-text-label"],
+      "backgrounds": ["--nw-surface-raised", "--nw-surface-page"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-border-strong", "--nw-focus-ring", "--nw-color-primary"],
+      "backgrounds": [
+        "--nw-surface-page",
+        "--nw-surface-raised",
+        "--nw-surface-sunken",
+        "--nw-surface-overlay"
+      ],
+      "min": 3
+    }
+  ]
+}

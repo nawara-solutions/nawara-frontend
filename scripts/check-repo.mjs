@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Runs the repository's static architecture and safety checks (docs/ARCHITECTURE.md §6). Exit code 1 lists every violation.
+import { execFileSync } from 'node:child_process';
 import { existsSync, lstatSync, readFileSync, readdirSync, readlinkSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -13,6 +14,8 @@ import {
   checkRootManifest,
   checkSharedStandard,
   checkSourceFile,
+  checkTokenSourceStyles,
+  checkTrackedGenerated,
 } from './lib/checks.mjs';
 
 export function runChecks(root) {
@@ -93,9 +96,13 @@ export function runChecks(root) {
 
   // 4. Package sources.
   for (const pkg of packages) {
-    for (const file of walk(join(packagesDir, pkg.layer, pkg.dir))) {
-      if (!SOURCE_FILE.test(file)) continue;
-      const path = relative(root, file).split('\\').join('/');
+    const files = [...walk(join(packagesDir, pkg.layer, pkg.dir))].map((file) =>
+      relative(root, file).split('\\').join('/'),
+    );
+    problems.push(...checkTokenSourceStyles(files));
+    for (const path of files) {
+      if (!SOURCE_FILE.test(path)) continue;
+      const file = join(root, path);
       problems.push(
         ...checkSourceFile(
           { path, layer: pkg.layer, text: readFileSync(file, 'utf8'), manifest: pkg.manifest },
@@ -104,7 +111,24 @@ export function runChecks(root) {
       );
     }
   }
+
+  // 5. Generated output is never tracked (outside a git checkout, for example the checks' own fixtures, there is nothing to check).
+  problems.push(...checkTrackedGenerated(trackedFiles(root)));
   return { problems, packageCount: packages.length, standardPresent };
+}
+
+function trackedFiles(root) {
+  try {
+    return execFileSync('git', ['ls-files', '-z', '--', 'packages'], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    })
+      .split('\0')
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
 }
 
 function* walk(dir) {
@@ -126,6 +150,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   console.log(
     `repository checks passed: root manifest, Claude hooks, ai-standard integration${standardPresent ? '' : ' (link targets only; ../ai-standard absent)'}, ` +
-      `action pinning, ${packageCount} workspace package(s): layers, frameworks, names, publication boundary, install scripts, package-manager neutrality, dependency specs, cycles, declared and contained imports, product terms`,
+      `action pinning, untracked generated output, ${packageCount} workspace package(s): token-source stylesheets, layers, frameworks, names, publication boundary, install scripts, package-manager neutrality, dependency specs, cycles, declared and contained imports, product terms`,
   );
 }

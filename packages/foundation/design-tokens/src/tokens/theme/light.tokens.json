@@ -1,0 +1,102 @@
+{
+  "surface": {
+    "$type": "color",
+    "page": {
+      "$value": "{ref.ink.50}"
+    },
+    "raised": {
+      "$value": "{ref.ink.0}"
+    },
+    "sunken": {
+      "$value": "{ref.ink.100}"
+    },
+    "overlay": {
+      "$value": "{ref.ink.0}"
+    },
+    "brand-subtle": {
+      "$value": "{ref.coral.50}"
+    }
+  },
+  "text": {
+    "$type": "color",
+    "primary": {
+      "$value": "{ref.ink.900}"
+    },
+    "secondary": {
+      "$value": "{ref.ink.500}"
+    },
+    "label": {
+      "$value": "{ref.ink.600}"
+    },
+    "disabled": {
+      "$value": "{ref.ink.400}"
+    },
+    "brand": {
+      "$value": "{ref.coral.600}"
+    },
+    "link": {
+      "$value": "{ref.coral.600}"
+    },
+    "on-primary": {
+      "$value": "{ref.ink.0}"
+    }
+  },
+  "border": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{ref.ink.200}"
+    },
+    "default": {
+      "$value": "{ref.ink.300}"
+    },
+    "strong": {
+      "$value": "{ref.ink.450}"
+    },
+    "brand": {
+      "$value": "{ref.coral.200}"
+    }
+  },
+  "color": {
+    "$type": "color",
+    "primary": {
+      "$value": "{ref.coral.600}"
+    },
+    "primary-hover": {
+      "$value": "{ref.coral.700}"
+    },
+    "primary-active": {
+      "$value": "{ref.coral.800}"
+    },
+    "primary-subtle": {
+      "$value": "{ref.coral.50}"
+    },
+    "neutral-hover": {
+      "$value": "{ref.ink.100}"
+    },
+    "neutral-active": {
+      "$value": "{ref.ink.200}"
+    }
+  },
+  "focus": {
+    "ring": {
+      "$type": "color",
+      "$value": "{ref.coral.500}"
+    },
+    "halo": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [0.898, 0.2196, 0.2314],
+        "alpha": 0.22,
+        "hex": "#e5383b"
+      },
+      "$description": "Soft ring around a focused field.",
+      "$extensions": {
+        "com.nawara-solutions.provenance": {
+          "source": "derived",
+          "reason": "coral 500 at 22% opacity: the soft ring around a focused field"
+        }
+      }
+    }
+  }
+}

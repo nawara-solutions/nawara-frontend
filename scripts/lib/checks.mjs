@@ -191,12 +191,18 @@ export function checkCycles(graph) {
 }
 
 /** Source files the checker scans inside packages. */
-export const SOURCE_FILE = /\.(ts|mts|cts|tsx|js|mjs|cjs|jsx|vue|svelte|html|scss|css)$/;
+export const SOURCE_FILE = /\.(ts|mts|cts|tsx|js|mjs|cjs|jsx|vue|svelte|html|scss|css|json)$/;
+const DATA_FILE = /\.json$/;
 const STYLE_FILE = /\.(scss|css)$/;
 const TEST_FILE = /\.(spec|test)\.[cm]?[jt]sx?$/;
 
-const IMPORT_SPECIFIER =
-  /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+|\brequire\s*\(\s*|@use\s+|@forward\s+|@import\s+)['"]([^'"]+)['"]/g;
+// Script imports apply to code and component files; Sass/CSS at-rule imports to stylesheets and component files. A Sass
+// `@use` inside a JavaScript string (a generator writing Sass, a test probe) is text, not an import.
+const SCRIPT_IMPORT =
+  /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+|\brequire\s*\(\s*)['"]([^'"]+)['"]/g;
+const STYLE_IMPORT = /(?:@use\s+|@forward\s+|@import\s+)['"]([^'"]+)['"]/g;
+const SCRIPT_FILE = /\.(ts|mts|cts|tsx|js|mjs|cjs|jsx|vue|svelte|html)$/;
+const STYLE_IMPORT_FILE = /\.(scss|css|vue|svelte|html)$/;
 
 /** The bare package name of an import specifier (`@angular/core/testing` → `@angular/core`), or null for a relative one. */
 export function packageOf(specifier) {
@@ -243,7 +249,14 @@ export function checkSourceFile({ path, layer, text, manifest = {} }, workspaceL
       Object.keys(manifest[f] ?? {}),
     ),
   );
-  for (const match of text.matchAll(IMPORT_SPECIFIER)) {
+  // Data files (token sources, package.json) are scanned for product vocabulary only, never for imports.
+  const imports = DATA_FILE.test(path)
+    ? []
+    : [
+        ...(SCRIPT_FILE.test(path) ? text.matchAll(SCRIPT_IMPORT) : []),
+        ...(STYLE_IMPORT_FILE.test(path) ? text.matchAll(STYLE_IMPORT) : []),
+      ];
+  for (const match of imports) {
     const specifier = match[1];
     if (PRODUCT_PATH_SPEC.test(specifier) || /^(\.\.\/)+nawara-/.test(specifier)) {
       problems.push(`${path}: imports "${specifier}" from a product repository`);
@@ -286,6 +299,27 @@ export function checkSourceFile({ path, layer, text, manifest = {} }, workspaceL
         );
     });
   return problems;
+}
+
+/** Generated package output (`packages/<layer>/<name>/dist/`) is build output and never tracked by git (ADR-0003 §1). */
+export function checkTrackedGenerated(trackedPaths) {
+  return trackedPaths
+    .filter((path) => /^packages\/[^/]+\/[^/]+\/dist\//.test(path))
+    .map((path) => `${path}: generated output is tracked by git; dist/ is built, never committed`);
+}
+
+/**
+ * A token source (a package with `src/**​/*.tokens.json`) holds no hand-written stylesheet: CSS and Sass are generated
+ * into dist/ from the token data (ADR-0003 §1). `files` are the package's repository-relative paths.
+ */
+export function checkTokenSourceStyles(files) {
+  if (!files.some((f) => /^packages\/[^/]+\/[^/]+\/src\/.*\.tokens\.json$/.test(f))) return [];
+  return files
+    .filter((f) => /^packages\/[^/]+\/[^/]+\/src\/.*\.(css|scss|sass|less)$/.test(f))
+    .map(
+      (f) =>
+        `${f}: hand-written stylesheet in a token source; stylesheets are generated into dist/`,
+    );
 }
 
 /** Every GitHub Actions `uses:` is pinned to a full commit SHA with its release as a comment (the Nawara Core rule). */
