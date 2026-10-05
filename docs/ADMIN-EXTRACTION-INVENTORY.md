@@ -68,7 +68,7 @@ generated artwork) · `public/illustrations/**` · `tools/check-i18n.mjs`, `tool
 | `core/state/view-state.ts` | foundation (type) + angular (RxJS operator), or one Angular package? |
 | ESLint/Stylelint rules (forbidden frameworks, raw-HTTP rule, BEM pattern, no raw colours) | a shared lint configuration package, or documented copies? Decide when the second product adopts them. |
 | fonts (`@fontsource/readex-pro`, `@fontsource/jetbrains-mono`) | part of the tokens package (peer dependency) or each product's choice? |
-| token source format | keep SCSS mixins, or move to a DTCG JSON source generating CSS/SCSS (and later Dart for Flutter)? An ADR before the tokens slice. |
+| token source format | **Decided: [ADR-0003](adr/0003-token-format-and-distribution.md) Accepted** (DTCG 2025.10 JSON source generating CSS and Sass breakpoints; later emitters such as Dart behind its re-evaluation trigger). |
 
 ## 3. Coupling and migration risks
 
