@@ -97,3 +97,19 @@ npm run format       # Prettier (Markdown and ai-standard files are excluded)
 Conventions for branches, Conventional Commits and pull requests: [`CONTRIBUTING.md`](CONTRIBUTING.md) (shared Nawara standard).
 Repository-specific rules — ownership, layers, reuse, quality bar — are in [`CLAUDE.md`](CLAUDE.md) and
 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Hard-to-reverse decisions are recorded as ADRs in [`docs/adr/`](docs/adr/).
+
+### Protected `main`
+
+`main` is protected by the repository ruleset `main`. Every change follows one path:
+
+```text
+type/short-description branch → pull request → frontend-ci (green, branch up to date with main) → owner squash-merge → main
+```
+
+- Direct pushes, force pushes and deletion of `main` are blocked for everyone.
+- The required check is `frontend-ci` (the `Frontend CI` workflow, which runs `npm run validate`). The branch must be up to
+  date with `main` before merging, and every review conversation must be resolved.
+- Pull requests merge by **squash** only (one commit per pull request on `main`). No approval count is required while the
+  owner is the only maintainer; the owner merges manually and nothing auto-merges, including Dependabot pull requests.
+- Repository administrators can bypass the rules only on a pull request, as a deliberate, audited recovery step (for
+  example when CI itself is broken), never for direct pushes.
