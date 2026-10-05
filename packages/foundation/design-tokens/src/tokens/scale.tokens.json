@@ -1,0 +1,106 @@
+{
+  "space": {
+    "$description": "Spacing: 4px-based rem scale.",
+    "$type": "dimension",
+    "0": { "$value": { "value": 0, "unit": "rem" } },
+    "1": { "$value": { "value": 0.25, "unit": "rem" } },
+    "2": { "$value": { "value": 0.5, "unit": "rem" } },
+    "3": { "$value": { "value": 0.75, "unit": "rem" } },
+    "4": { "$value": { "value": 1, "unit": "rem" } },
+    "5": { "$value": { "value": 1.25, "unit": "rem" } },
+    "6": { "$value": { "value": 1.5, "unit": "rem" } },
+    "7": { "$value": { "value": 2, "unit": "rem" } },
+    "8": { "$value": { "value": 2.5, "unit": "rem" } },
+    "9": { "$value": { "value": 3, "unit": "rem" } },
+    "10": { "$value": { "value": 4, "unit": "rem" } }
+  },
+  "radius": {
+    "$description": "Radius: the brand favours soft, rounded shapes.",
+    "$type": "dimension",
+    "sm": { "$value": { "value": 0.375, "unit": "rem" } },
+    "md": { "$value": { "value": 0.625, "unit": "rem" } },
+    "lg": { "$value": { "value": 1, "unit": "rem" } },
+    "xl": { "$value": { "value": 1.5, "unit": "rem" } },
+    "pill": { "$value": { "value": 999, "unit": "px" } }
+  },
+  "font": {
+    "$description": "Brand typefaces: Readex Pro for Latin and Arabic, JetBrains Mono for codes and machine values. Font files and their delivery are not part of this package.",
+    "$type": "fontFamily",
+    "sans": {
+      "$value": ["Readex Pro", "system-ui", "-apple-system", "Segoe UI", "sans-serif"]
+    },
+    "latin": {
+      "$value": "{font.sans}",
+      "$deprecated": "Same stack as font.sans; use --nw-font-sans. Kept for compatibility, emitted as a copy of the value."
+    },
+    "arabic": { "$value": ["Readex Pro", "system-ui", "sans-serif"] },
+    "mono": {
+      "$value": ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"]
+    }
+  },
+  "font-weight": {
+    "$type": "fontWeight",
+    "regular": { "$value": 400 },
+    "medium": { "$value": 500 },
+    "semibold": { "$value": 600 },
+    "bold": {
+      "$value": 600,
+      "$description": "Headings and key figures: the theme's heaviest weight (Readex Pro 600). Equal to semibold by design."
+    }
+  },
+  "text-size": {
+    "$type": "dimension",
+    "xs": { "$value": { "value": 0.75, "unit": "rem" } },
+    "sm": { "$value": { "value": 0.875, "unit": "rem" } },
+    "md": { "$value": { "value": 1, "unit": "rem" } },
+    "lg": { "$value": { "value": 1.125, "unit": "rem" } },
+    "xl": { "$value": { "value": 1.25, "unit": "rem" } },
+    "2xl": { "$value": { "value": 1.5, "unit": "rem" } },
+    "3xl": { "$value": { "value": 1.875, "unit": "rem" } },
+    "4xl": { "$value": { "value": 2.25, "unit": "rem" } }
+  },
+  "line-height": {
+    "$type": "number",
+    "tight": { "$value": 1.2 },
+    "snug": { "$value": 1.35 },
+    "normal": { "$value": 1.5 }
+  },
+  "letter-spacing": {
+    "$type": "dimension",
+    "label": {
+      "$value": { "value": 0.08, "unit": "em" },
+      "$description": "Latin-only tracking for small labels. Uses the em unit, a documented deviation from DTCG 2025.10 (px and rem only)."
+    }
+  },
+  "z": {
+    "$description": "Z-index scale.",
+    "$type": "number",
+    "base": { "$value": 0 },
+    "sticky": { "$value": 100 },
+    "dropdown": { "$value": 200 },
+    "overlay": { "$value": 300 },
+    "modal": { "$value": 400 },
+    "toast": { "$value": 500 }
+  },
+  "duration": {
+    "$type": "duration",
+    "fast": { "$value": { "value": 120, "unit": "ms" } },
+    "base": { "$value": { "value": 200, "unit": "ms" } },
+    "slow": { "$value": { "value": 320, "unit": "ms" } }
+  },
+  "ease": {
+    "$type": "cubicBezier",
+    "standard": { "$value": [0.2, 0, 0, 1] },
+    "emphasized": { "$value": [0.3, 0, 0, 1.2] }
+  },
+  "control-height": {
+    "$type": "dimension",
+    "sm": { "$value": { "value": 2, "unit": "rem" } },
+    "md": { "$value": { "value": 2.5, "unit": "rem" } }
+  },
+  "focus": {
+    "$type": "dimension",
+    "ring-width": { "$value": { "value": 2, "unit": "px" } },
+    "ring-offset": { "$value": { "value": 2, "unit": "px" } }
+  }
+}

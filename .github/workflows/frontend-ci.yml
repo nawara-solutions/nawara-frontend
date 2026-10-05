@@ -1,8 +1,9 @@
 name: Frontend CI
 
 # Validates every pull request to main and every push to main: formatting, the repository architecture checks
-# (dependency boundaries, publication boundary, action pinning, ai-standard links) and their own tests. It builds and
-# tests only: it never publishes a package, never deploys and uses no secret.
+# (dependency boundaries, publication boundary, action pinning, ai-standard links) and their own tests, and every
+# workspace package's build and tests. It builds, packs locally and tests only: it never publishes a package, never
+# deploys and uses no secret.
 on:
   pull_request:
     branches: [main]
@@ -40,3 +41,7 @@ jobs:
         run: npm run check:repo
       - name: checks' own tests
         run: npm run test:repo
+      # Every workspace package builds from a clean checkout (dist/ is never committed), then runs its own tests: for
+      # design-tokens, validation and contrast, determinism, the npm-pack tarball and an offline consumer install.
+      - name: workspace packages (build, tests, pack and consumer proof)
+        run: npm run test:packages

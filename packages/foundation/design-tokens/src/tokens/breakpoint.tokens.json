@@ -1,0 +1,10 @@
+{
+  "breakpoint": {
+    "$description": "The only viewport breakpoints. Authored in rem (DTCG 2025.10); the Sass module emits the same numbers in em, which media queries resolve against the same initial font size. Never emitted as CSS custom properties: media queries cannot read them.",
+    "$type": "dimension",
+    "tablet": { "$value": { "value": 37.5, "unit": "rem" } },
+    "laptop": { "$value": { "value": 56.25, "unit": "rem" } },
+    "desktop": { "$value": { "value": 75, "unit": "rem" } },
+    "wide": { "$value": { "value": 100, "unit": "rem" } }
+  }
+}

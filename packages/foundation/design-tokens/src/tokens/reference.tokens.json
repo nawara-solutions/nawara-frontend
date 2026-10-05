@@ -1,0 +1,327 @@
+{
+  "ref": {
+    "$description": "Reference colours of the Nawara brand palette (coral + ink). Read only by the theme sets, never by components.",
+    "$type": "color",
+    "coral": {
+      "$description": "Coral: brand primary. 600 carries actions on light grounds, 400 on dark ones.",
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1.0, 0.9451, 0.9451],
+          "hex": "#fff1f1"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1.0, 0.8784, 0.8784],
+          "hex": "#ffe0e0"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1.0, 0.7608, 0.7647],
+          "hex": "#ffc2c3"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1.0, 0.5843, 0.5922],
+          "hex": "#ff9597"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1.0, 0.3608, 0.3725],
+          "hex": "#ff5c5f"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.898, 0.2196, 0.2314],
+          "hex": "#e5383b"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.7686, 0.1412, 0.1529],
+          "hex": "#c42427"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.6275, 0.1098, 0.1216],
+          "hex": "#a01c1f"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.4941, 0.102, 0.1137],
+          "hex": "#7e1a1d"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.3608, 0.0824, 0.0902],
+          "hex": "#5c1517"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "950": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.2392, 0.1451, 0.1961],
+          "hex": "#3d2532"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "derived",
+            "reason": "coral 400 at 12% over ink 800 (dark tinted fill), made solid for contrast checks"
+          }
+        }
+      }
+    },
+    "ink": {
+      "$description": "Ink: neutrals, from paper to the ink ground.",
+      "0": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [1.0, 1.0, 1.0],
+          "hex": "#ffffff"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "50": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.9804, 0.9725, 0.9686],
+          "hex": "#faf8f7"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.9529, 0.9373, 0.9373],
+          "hex": "#f3efef"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.8941, 0.8745, 0.8902],
+          "hex": "#e4dfe3"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.7882, 0.7647, 0.8],
+          "hex": "#c9c3cc"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "400": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.6118, 0.5843, 0.6392],
+          "hex": "#9c95a3"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "450": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.5529, 0.5255, 0.5804],
+          "hex": "#8d8694"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "derived",
+            "reason": "the design's field border (ink 400) is 2.9:1 on white; this is the nearest ink at 3:1 on every light surface (WCAG 1.4.11)"
+          }
+        }
+      },
+      "475": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.5059, 0.4784, 0.5333],
+          "hex": "#817a88"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "derived",
+            "reason": "the design's dark field border (ink 500) is under 3:1 on dark cards; nearest ink at 3:1 on every dark surface"
+          }
+        }
+      },
+      "500": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.4196, 0.3882, 0.4471],
+          "hex": "#6b6372"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "600": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.2902, 0.2627, 0.3216],
+          "hex": "#4a4352"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.2078, 0.1843, 0.2471],
+          "hex": "#352f3f"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "750": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1686, 0.1451, 0.2157],
+          "hex": "#2b2537"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1373, 0.1176, 0.1725],
+          "hex": "#231e2c"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "850": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.1098, 0.0941, 0.1451],
+          "hex": "#1c1825"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.0902, 0.0745, 0.1216],
+          "hex": "#17131f"
+        },
+        "$extensions": {
+          "com.nawara-solutions.provenance": {
+            "source": "design"
+          }
+        }
+      }
+    }
+  }
+}

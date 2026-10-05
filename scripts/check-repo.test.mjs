@@ -17,6 +17,8 @@ import {
   checkRootManifest,
   checkSharedStandard,
   checkSourceFile,
+  checkTokenSourceStyles,
+  checkTrackedGenerated,
   packageOf,
 } from './lib/checks.mjs';
 
@@ -526,6 +528,117 @@ describe('guard-sibling-writes.sh (Claude Code PreToolUse hook)', () => {
       assert.equal(denied(run('')), false);
     } finally {
       cleanup();
+    }
+  });
+});
+
+describe('generated output and token sources (design-tokens, ADR-0003)', () => {
+  it('rejects generated package output tracked by git, and nothing else', () => {
+    assert.deepEqual(
+      checkTrackedGenerated([
+        'packages/foundation/design-tokens/src/nawara.resolver.json',
+        'packages/foundation/design-tokens/package.json',
+      ]),
+      [],
+    );
+    assert.match(
+      checkTrackedGenerated(['packages/foundation/design-tokens/dist/tokens.css']).join(),
+      /generated output is tracked by git/,
+    );
+  });
+
+  it('rejects a hand-written stylesheet in a token source, but not in other packages', () => {
+    const token = ['packages/foundation/design-tokens/src/tokens/scale.tokens.json'];
+    assert.deepEqual(checkTokenSourceStyles(token), []);
+    assert.match(
+      checkTokenSourceStyles([...token, 'packages/foundation/design-tokens/src/extra.scss']).join(),
+      /hand-written stylesheet in a token source/,
+    );
+    assert.match(
+      checkTokenSourceStyles([
+        ...token,
+        'packages/foundation/design-tokens/src/tokens/legacy.css',
+      ]).join(),
+      /legacy\.css/,
+    );
+    assert.deepEqual(checkTokenSourceStyles(['packages/angular/ui/src/button.scss']), []);
+  });
+
+  it('scans token JSON for product vocabulary, without treating JSON as imports', () => {
+    const tokens = 'packages/foundation/design-tokens/src/tokens/scale.tokens.json';
+    assert.match(
+      checkSourceFile(
+        { path: tokens, layer: 'foundation', text: '{ "studentCard": { "$value": 1 } }\n' },
+        LAYERS_OF,
+      ).join(),
+      /product-domain term "student"/,
+    );
+    assert.deepEqual(
+      checkSourceFile(
+        { path: tokens, layer: 'foundation', text: '{ "from": "@angular/core", "space": {} }\n' },
+        LAYERS_OF,
+      ),
+      [],
+    );
+  });
+
+  it('treats Sass @use as an import in stylesheets only, never inside a script string', () => {
+    const script =
+      "const scss = \"@use 'pkg:@nawara-solutions/design-tokens/breakpoints' as bp; @use 'sass:map';\";\n";
+    assert.deepEqual(
+      checkSourceFile(
+        {
+          path: 'packages/foundation/design-tokens/scripts/lib/emit.mjs',
+          layer: 'foundation',
+          text: script,
+        },
+        LAYERS_OF,
+      ),
+      [],
+    );
+    assert.match(
+      checkSourceFile(
+        {
+          path: 'packages/foundation/design-tokens/src/x.scss',
+          layer: 'foundation',
+          text: "@use 'pkg:@angular/cdk/overlay';\n",
+        },
+        LAYERS_OF,
+      ).join(),
+      /framework-independent/,
+    );
+  });
+
+  it('reports a hand-written stylesheet in a token package end to end', () => {
+    const parent = mkdtempSync(join(tmpdir(), 'nawara-frontend-tokens-'));
+    const root = join(parent, 'nawara-frontend');
+    try {
+      for (const [path, target] of Object.entries(SHARED_STANDARD.symlinks)) {
+        mkdirSync(dirname(join(root, path)), { recursive: true });
+        symlinkSync(target, join(root, path));
+      }
+      const files = {
+        'package.json': '{"private":true}',
+        '.claude/settings.json': VALID_SETTINGS,
+        ...Object.fromEntries(Object.keys(SHARED_STANDARD.copies).map((p) => [p, 'copy'])),
+        'packages/foundation/design-tokens/package.json': JSON.stringify({
+          name: TOKENS,
+          private: true,
+        }),
+        'packages/foundation/design-tokens/src/tokens/scale.tokens.json':
+          '{ "space": { "$type": "number", "1": { "$value": 1 } } }\n',
+        'packages/foundation/design-tokens/src/handwritten.scss': '$x: 1;\n',
+      };
+      for (const [path, text] of Object.entries(files)) {
+        mkdirSync(dirname(join(root, path)), { recursive: true });
+        writeFileSync(join(root, path), text);
+      }
+      assert.match(
+        runChecks(root).problems.join('\n'),
+        /src\/handwritten\.scss: hand-written stylesheet in a token source/,
+      );
+    } finally {
+      rmSync(parent, { recursive: true, force: true });
     }
   });
 });

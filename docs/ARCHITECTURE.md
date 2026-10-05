@@ -9,9 +9,9 @@ for Nawara Admin is [`ADMIN-EXTRACTION-INVENTORY.md`](ADMIN-EXTRACTION-INVENTORY
 
 ## 0. Status (2026-10-05)
 
-**Bootstrapped. No shared package exists yet.** The repository holds its rules, its tooling and its enforcement; the first
-package is created by the first extraction slice from Nawara Admin, not before. Everything below marked *planned* or *future*
-does not exist.
+**One package exists: `@nawara-solutions/design-tokens` 0.1.0** (`packages/foundation/design-tokens`, private, not
+published), the first design-token slice (DT1) of [ADR-0003](adr/0003-token-format-and-distribution.md). No product consumes
+it yet; Admin adoption is a later, separately authorized step. Everything below marked *planned* or *future* does not exist.
 
 ## 1. What this repository is, and is not
 
@@ -70,7 +70,7 @@ Rules:
 
 ```text
 nawara-frontend/
-├── packages/                    ← CREATED BY THE FIRST EXTRACTION SLICE (does not exist yet)
+├── packages/                    ← today: foundation/design-tokens (ADR-0003)
 │   ├── foundation/<name>/       class A, published as @nawara-solutions/<name>
 │   └── angular/<name>/          class B, published as @nawara-solutions/angular-<name>
 ├── scripts/                     check-repo.mjs (architecture checks) and their tests
@@ -212,8 +212,9 @@ and an update to §5.
 | Package manager | npm 11.16.0 (`packageManager`) with npm workspaces | Admin, Core and Drive all use npm 11.16; School uses pnpm 9 but only `foundation` packages would ever reach it, and published packages are package-manager-neutral |
 | Formatting | Prettier 3 (`printWidth` 100, single quotes; Markdown and ai-standard files excluded) | Admin's configuration |
 | Commits | commitlint + husky via ai-standard | ai-standard onboarding steps 3, 5 |
-| Checks/tests | Node's built-in `node:test` for repository scripts | Core's `check:repo`/`test:repo` pattern; no extra dependency |
-| Deferred to the first package | TypeScript, ESLint (+ angular-eslint), Stylelint, Vitest, ng-packagr | no code exists to configure them against; versions will follow Admin (TypeScript 6.0, Angular 22.2, Vitest 5, ESLint 10) |
+| Checks/tests | Node's built-in `node:test` for repository scripts and packages (`npm run test:packages`) | Core's `check:repo`/`test:repo` pattern; no extra dependency |
+| Design tokens | dependency-free Node generator (`packages/foundation/design-tokens/scripts`); `sass` 1.104.1 as its only, test-only, dev dependency (proves the `pkg:` consumer import) | ADR-0003; the same Sass version as Nawara Admin |
+| Deferred to the first Angular package | TypeScript, ESLint (+ angular-eslint), Stylelint, Vitest, ng-packagr | the design-tokens package is plain data and Node scripts and needs none of them; versions will follow Admin (TypeScript 6.0, Angular 22.2, Vitest 5, ESLint 10) |
 
 ## 12. Not decided here
 

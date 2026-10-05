@@ -1,0 +1,102 @@
+{
+  "surface": {
+    "$type": "color",
+    "page": {
+      "$value": "{ref.ink.900}"
+    },
+    "raised": {
+      "$value": "{ref.ink.800}"
+    },
+    "sunken": {
+      "$value": "{ref.ink.700}"
+    },
+    "overlay": {
+      "$value": "{ref.ink.800}"
+    },
+    "brand-subtle": {
+      "$value": "{ref.coral.950}"
+    }
+  },
+  "text": {
+    "$type": "color",
+    "primary": {
+      "$value": "{ref.ink.0}"
+    },
+    "secondary": {
+      "$value": "{ref.ink.300}"
+    },
+    "label": {
+      "$value": "{ref.ink.200}"
+    },
+    "disabled": {
+      "$value": "{ref.ink.500}"
+    },
+    "brand": {
+      "$value": "{ref.coral.300}"
+    },
+    "link": {
+      "$value": "{ref.coral.300}"
+    },
+    "on-primary": {
+      "$value": "{ref.ink.900}"
+    }
+  },
+  "border": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{ref.ink.700}"
+    },
+    "default": {
+      "$value": "{ref.ink.600}"
+    },
+    "strong": {
+      "$value": "{ref.ink.475}"
+    },
+    "brand": {
+      "$value": "{ref.coral.800}"
+    }
+  },
+  "color": {
+    "$type": "color",
+    "primary": {
+      "$value": "{ref.coral.400}"
+    },
+    "primary-hover": {
+      "$value": "{ref.coral.300}"
+    },
+    "primary-active": {
+      "$value": "{ref.coral.200}"
+    },
+    "primary-subtle": {
+      "$value": "{ref.coral.950}"
+    },
+    "neutral-hover": {
+      "$value": "{ref.ink.750}"
+    },
+    "neutral-active": {
+      "$value": "{ref.ink.700}"
+    }
+  },
+  "focus": {
+    "ring": {
+      "$type": "color",
+      "$value": "{ref.coral.400}"
+    },
+    "halo": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [1, 0.3608, 0.3725],
+        "alpha": 0.3,
+        "hex": "#ff5c5f"
+      },
+      "$description": "Soft ring around a focused field.",
+      "$extensions": {
+        "com.nawara-solutions.provenance": {
+          "source": "derived",
+          "reason": "coral 400 at 30% opacity: the soft ring around a focused field on dark grounds"
+        }
+      }
+    }
+  }
+}

@@ -3,9 +3,9 @@
 The shared frontend platform of the **Nawara** ecosystem (Nawara Solutions): framework-independent frontend foundations and
 framework-specific shared implementations, consumed by independent Nawara products.
 
-> **Status: bootstrapped — no package exists yet.** This repository currently holds its architecture, rules, tooling and
-> automated boundary checks. The first package will be extracted from Nawara Admin in a later, separately authorized phase
-> ([extraction inventory](docs/ADMIN-EXTRACTION-INVENTORY.md)). Nothing has been published.
+> **Status: first package in place, nothing published.** `@nawara-solutions/design-tokens` 0.1.0 (private) holds the core
+> foundation tokens (DT1 of [ADR-0003](docs/adr/0003-token-format-and-distribution.md)). No product consumes it yet; Admin
+> adoption and further extraction ([inventory](docs/ADMIN-EXTRACTION-INVENTORY.md)) are later, separately authorized phases.
 
 ## What it is
 
@@ -53,8 +53,7 @@ Details: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 | Package | Layer | State |
 |---|---|---|
-| *(none)* | — | the first package is created by the first extraction slice |
-| `@nawara-solutions/design-tokens` | foundation | **planned**, not created |
+| [`@nawara-solutions/design-tokens`](packages/foundation/design-tokens/README.md) | foundation | **0.1.0, private** — core foundation tokens (DT1); status, alert, danger, shadow and scrim tokens follow (DT2) |
 | `@nawara-solutions/angular-ui` | angular | **planned**, not created |
 
 Future framework layers (`vue`, `react`, …) are **possibilities only**; see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §10
@@ -77,7 +76,7 @@ nawara-frontend/
 │   └── adr/ add/ sdd/ tdd/       design docs (templates symlinked, indexes local)
 ├── .claude/                      shared commands/agents/hook (symlinks), settings, /reuse-check
 ├── .github/                      CI (validation only), Dependabot, PR template
-└── packages/                     created with the first package: foundation/<name>, angular/<name>
+└── packages/                     foundation/design-tokens today; later foundation/<name>, angular/<name>
 ```
 
 ## Development

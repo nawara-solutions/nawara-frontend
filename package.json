@@ -20,7 +20,8 @@
     "test:repo": "node --test scripts/check-repo.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate": "npm run format:check && npm run check:repo && npm run test:repo"
+    "test:packages": "npm run build --workspaces --if-present && npm test --workspaces --if-present",
+    "validate": "npm run format:check && npm run check:repo && npm run test:repo && npm run test:packages"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.3",

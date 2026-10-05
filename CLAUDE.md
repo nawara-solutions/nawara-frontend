@@ -9,8 +9,10 @@ layer) and framework-specific shared implementations (`angular` layer first), co
 (Nawara Admin, Nawara Drive, Nawara School, future products) as versioned packages. It is **not** an application, **not** a
 product, and **not** "one Angular app for everything". Full model: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
-**Current state: bootstrapped, no package exists yet.** The first package is created by the first extraction slice from Nawara
-Admin ([`docs/ADMIN-EXTRACTION-INVENTORY.md`](docs/ADMIN-EXTRACTION-INVENTORY.md)), only when the owner authorizes it.
+**Current state: one package, `@nawara-solutions/design-tokens` 0.1.0** (private, not published, no consumer yet; DT1 of
+ADR-0003). Its `src/` JSON is the token source of truth and `dist/` is generated, never edited or committed. Further slices
+(DT2 data, Admin adoption, other extractions from [`docs/ADMIN-EXTRACTION-INVENTORY.md`](docs/ADMIN-EXTRACTION-INVENTORY.md))
+happen only when the owner authorizes them.
 
 ## Shared AI-Agent Workflow Standard
 
@@ -103,7 +105,9 @@ Repository command: `/reuse-check`.
 | `npm run check:repo` | architecture and safety checks: layers, frameworks and dependency directions, declared and package-contained imports, registry-only dependency specs, product isolation, cycles, names, publication boundary, install scripts, package-manager neutrality, product-domain terms, action pinning, ai-standard links, the repository's Claude hooks |
 | `npm run test:repo` | the checks' own tests (`node:test`) |
 | `npm run format` / `npm run format:check` | Prettier write / check |
-| `npm run validate` | **format:check → check:repo → test:repo**: run before every commit and before reporting work complete |
+| `npm run test:packages` | every workspace package: build, then its tests (design-tokens: validation, contrast, determinism, npm-pack and consumer proof) |
+| `npm run validate` | **format:check → check:repo → test:repo → test:packages**: run before every commit and before reporting work complete |
 
 Toolchain: Node 24.18.0 (`.node-version`), npm 11.16.0 (`packageManager`), npm workspaces `packages/*/*`. Install with
-`npm install`; CI uses `npm ci --ignore-scripts`. TypeScript, ESLint, Vitest and ng-packagr are added with the first package.
+`npm install`; CI uses `npm ci --ignore-scripts`. TypeScript, ESLint, Vitest and ng-packagr are added with the first Angular
+package.

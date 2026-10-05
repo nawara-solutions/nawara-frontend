@@ -1,0 +1,60 @@
+{
+  "name": "@nawara-solutions/design-tokens",
+  "version": "2025.10",
+  "description": "Nawara foundation tokens (ADR-0003). Themes and accents are modifiers; system theme and default accent are the absence of the data attribute in the generated CSS.",
+  "sets": {
+    "reference": { "sources": [{ "$ref": "tokens/reference.tokens.json" }] },
+    "scale": { "sources": [{ "$ref": "tokens/scale.tokens.json" }] },
+    "breakpoint": { "sources": [{ "$ref": "tokens/breakpoint.tokens.json" }] }
+  },
+  "modifiers": {
+    "theme": {
+      "description": "Light and dark semantic sets. System preference is a runtime rule, not a context.",
+      "contexts": {
+        "light": [{ "$ref": "tokens/theme/light.tokens.json" }],
+        "dark": [{ "$ref": "tokens/theme/dark.tokens.json" }]
+      },
+      "default": "light"
+    },
+    "accent": {
+      "description": "Coral, the Nawara brand default, is the theme sets' own values. Products add accents in their own extensions; every accent overrides exactly the accent-controlled tokens.",
+      "contexts": {
+        "default": []
+      },
+      "default": "default",
+      "$extensions": {
+        "com.nawara-solutions.accent-contract": {
+          "tokens": [
+            "color.primary",
+            "color.primary-hover",
+            "color.primary-active",
+            "color.primary-subtle",
+            "surface.brand-subtle",
+            "text.on-primary",
+            "text.brand",
+            "text.link",
+            "border.brand",
+            "focus.ring",
+            "focus.halo"
+          ]
+        }
+      }
+    },
+    "motion": {
+      "description": "Reduced motion collapses the duration scale.",
+      "contexts": {
+        "standard": [],
+        "reduced": [{ "$ref": "tokens/motion/reduced.tokens.json" }]
+      },
+      "default": "standard"
+    }
+  },
+  "resolutionOrder": [
+    { "$ref": "#/sets/reference" },
+    { "$ref": "#/sets/scale" },
+    { "$ref": "#/sets/breakpoint" },
+    { "$ref": "#/modifiers/theme" },
+    { "$ref": "#/modifiers/accent" },
+    { "$ref": "#/modifiers/motion" }
+  ]
+}
