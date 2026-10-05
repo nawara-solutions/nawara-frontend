@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-sibling-writes.sh",
+            "statusMessage": "Checking the write stays inside nawara-frontend..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/design-doc-conformance-trigger.sh",
+            "statusMessage": "Checking design-doc conformance..."
+          }
+        ]
+      }
+    ]
+  }
+}

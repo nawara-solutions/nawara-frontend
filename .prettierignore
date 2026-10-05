@@ -1,0 +1,19 @@
+# Build output and caches
+node_modules
+dist
+coverage
+package-lock.json
+
+# Shared Nawara AI standard: symlinks into ../ai-standard and verbatim copies of it.
+# Formatting them would edit (or diverge from) the shared standard — see CLAUDE.md.
+/.claude
+/.husky
+/.github/PULL_REQUEST_TEMPLATE.md
+/CONTRIBUTING.md
+/commitlint.config.cjs
+/.mcp.json
+/docs/README.md
+/docs/*/template.md
+
+# Markdown documentation is hand-formatted (wide tables, ASCII diagrams); reviewed in PRs, not by Prettier.
+*.md

@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output and caches (packages publish their own dist/; it is never committed)
+dist/
+out-tsc/
+coverage/
+.angular/
+*.tsbuildinfo
+*.tgz
+
+# Logs
+npm-debug.log*
+
+# Environment files: the frontend platform needs no secret; never commit one
+.env
+.env.*
+
+# IDEs and editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json

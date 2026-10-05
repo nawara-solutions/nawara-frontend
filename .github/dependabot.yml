@@ -1,0 +1,16 @@
+# Version-update pull requests, reviewed and merged by hand like any other change (no auto-merge), as in Nawara Core.
+# GitHub Actions stay pinned by full commit SHA (check:repo); Dependabot bumps the SHA and its version comment together.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5

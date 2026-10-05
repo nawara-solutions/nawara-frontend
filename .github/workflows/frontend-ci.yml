@@ -1,0 +1,42 @@
+name: Frontend CI
+
+# Validates every pull request to main and every push to main: formatting, the repository architecture checks
+# (dependency boundaries, publication boundary, action pinning, ai-standard links) and their own tests. It builds and
+# tests only: it never publishes a package, never deploys and uses no secret.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A newer push to the same ref supersedes an older CI run.
+concurrency:
+  group: frontend-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    # A stable name a future `main` ruleset can require (the Nawara Core `core-ci-passed` lesson).
+    name: frontend-ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: pin npm to package.json "packageManager"
+        run: npm install -g --ignore-scripts "$(node -p "require('./package.json').packageManager")"
+      # No install-time script runs in CI (supply chain); husky is a local developer hook only.
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run format:check
+      # ../ai-standard does not exist on the runner: only the symlink targets are checked, not their resolution.
+      - name: architecture and safety checks
+        run: npm run check:repo
+      - name: checks' own tests
+        run: npm run test:repo
