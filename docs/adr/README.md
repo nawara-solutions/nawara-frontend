@@ -43,3 +43,4 @@ Numbers are sequential and never reused, even if an ADR is later superseded or r
 | --- | ----- | ------ |
 | [0001](./0001-layered-multi-framework-frontend-platform.md) | nawara-frontend is a layered, multi-framework platform, starting with no packages | Accepted |
 | [0002](./0002-package-scope-and-consumption-model.md) | Package scope `@nawara-solutions` and consumption through GitHub Packages | Accepted |
+| [0003](./0003-token-format-and-distribution.md) | Token format and distribution architecture | Accepted |

@@ -2,7 +2,8 @@
 
 The root architecture document of this repository (the whole-repository ADD in the sense of
 [`docs/README.md`](README.md)). Decisions with their rationale are ADRs: [ADR-0001](adr/0001-layered-multi-framework-frontend-platform.md)
-(layering) and [ADR-0002](adr/0002-package-scope-and-consumption-model.md) (package scope and consumption). The extraction plan
+(layering), [ADR-0002](adr/0002-package-scope-and-consumption-model.md) (package scope and consumption) and
+[ADR-0003](adr/0003-token-format-and-distribution.md) (token format and distribution). The extraction plan
 for Nawara Admin is [`ADMIN-EXTRACTION-INVENTORY.md`](ADMIN-EXTRACTION-INVENTORY.md); the consumption model is
 [`CONSUMPTION.md`](CONSUMPTION.md).
 
@@ -197,7 +198,7 @@ Core's documented contracts; it never imports Core code. A Core contract change 
 | React (web/desktop) | School desktop (React 18 + Vite + Tauri) | none; a `react` layer only when a second React consumer needs the same thing; until then School may consume `foundation` |
 | Vue | none | none; `vue` layer when a real Vue product exists |
 | React Native | Drive mobile (Expo) | none; RN shares JS but not DOM/CSS, so it is its own layer if ever justified |
-| Flutter | School mobile | none; Dart cannot consume npm packages. Sharing would be a separate Dart package (pub, likely another repository). Tokens could reach Flutter only through a generated artifact (decision deferred) |
+| Flutter | School mobile | none; Dart cannot consume npm packages. Sharing would be a separate Dart package (pub, likely another repository). Tokens could reach Flutter only through a generated artifact: a future Dart emitter over the ADR-0003 source (not built) |
 | Tauri | Drive desktop, School desktop | none; a Tauri desktop consumes the layer of its frontend framework. Tauri/Rust helpers only when two desktop apps share them |
 
 Adding a layer: an ADR, a `LAYERS` entry in `scripts/lib/checks.mjs` (with `mayDependOn: ['foundation', '<self>']`), tests,
@@ -216,7 +217,6 @@ and an update to §5.
 
 ## 12. Not decided here
 
-- The token source format (Admin's SCSS mixins as-is, or a DTCG JSON source that generates CSS/SCSS and, later, other targets).
 - Release tooling (for example Changesets) and the version policy details — recommendation in [`CONSUMPTION.md`](CONSUMPTION.md).
 - Whether a showcase application is a workspace in this repository.
 - Whether School's React desktop consumes `foundation` packages.
