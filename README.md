@@ -95,7 +95,9 @@ npm run format       # Prettier (Markdown and ai-standard files are excluded)
 
 Conventions for branches, Conventional Commits and pull requests: [`CONTRIBUTING.md`](CONTRIBUTING.md) (shared Nawara standard).
 Repository-specific rules — ownership, layers, reuse, quality bar — are in [`CLAUDE.md`](CLAUDE.md) and
-[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Hard-to-reverse decisions are recorded as ADRs in [`docs/adr/`](docs/adr/).
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). How products and this repository work together — reuse first, separate
+contributions, version independence, product-owned visual identity, product token extensions — is
+[`docs/SHARED-CONTRIBUTION-POLICY.md`](docs/SHARED-CONTRIBUTION-POLICY.md). Hard-to-reverse decisions are recorded as ADRs in [`docs/adr/`](docs/adr/).
 
 ### Protected `main`
 

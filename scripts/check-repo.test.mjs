@@ -13,6 +13,7 @@ import {
   checkActionPins,
   checkCycles,
   checkPackageManifest,
+  checkPolicyDiscoverable,
   checkClaudeSettings,
   checkRootManifest,
   checkSharedStandard,
@@ -406,7 +407,12 @@ describe('runChecks (end to end on a temporary repository)', () => {
       mkdirSync(dirname(join(root, path)), { recursive: true });
       writeFileSync(join(root, path), 'copy');
     }
-    const base = { 'package.json': '{"private":true}', '.claude/settings.json': VALID_SETTINGS };
+    const base = {
+      'package.json': '{"private":true}',
+      '.claude/settings.json': VALID_SETTINGS,
+      'docs/SHARED-CONTRIBUTION-POLICY.md': '# policy\n',
+      'CLAUDE.md': '[policy](docs/SHARED-CONTRIBUTION-POLICY.md)\n',
+    };
     for (const [path, text] of Object.entries({ ...base, ...files })) {
       mkdirSync(dirname(join(root, path)), { recursive: true });
       writeFileSync(join(root, path), text);
@@ -620,6 +626,8 @@ describe('generated output and token sources (design-tokens, ADR-0003)', () => {
       const files = {
         'package.json': '{"private":true}',
         '.claude/settings.json': VALID_SETTINGS,
+        'docs/SHARED-CONTRIBUTION-POLICY.md': '# policy\n',
+        'CLAUDE.md': '[policy](docs/SHARED-CONTRIBUTION-POLICY.md)\n',
         ...Object.fromEntries(Object.keys(SHARED_STANDARD.copies).map((p) => [p, 'copy'])),
         'packages/foundation/design-tokens/package.json': JSON.stringify({
           name: TOKENS,
@@ -640,5 +648,21 @@ describe('generated output and token sources (design-tokens, ADR-0003)', () => {
     } finally {
       rmSync(parent, { recursive: true, force: true });
     }
+  });
+});
+
+describe('shared contribution policy (agent discoverability)', () => {
+  it('requires the policy to exist and CLAUDE.md to link to it', () => {
+    const linked =
+      'See [`docs/SHARED-CONTRIBUTION-POLICY.md`](docs/SHARED-CONTRIBUTION-POLICY.md).';
+    assert.deepEqual(checkPolicyDiscoverable({ policyText: '# policy', claudeText: linked }), []);
+    assert.match(
+      checkPolicyDiscoverable({ policyText: undefined, claudeText: linked }).join(),
+      /SHARED-CONTRIBUTION-POLICY\.md: missing/,
+    );
+    assert.match(
+      checkPolicyDiscoverable({ policyText: '# policy', claudeText: '# CLAUDE.md' }).join(),
+      /CLAUDE\.md: must link to docs\/SHARED-CONTRIBUTION-POLICY\.md/,
+    );
   });
 });

@@ -81,6 +81,13 @@ primitive, theme capability, auth abstraction, authorization abstraction or API 
 Use `/reuse-check <what you need>` to run this decision explicitly. When working from a product repository, check this
 repository before building generic frontend functionality there.
 
+**Working with products.** [`docs/SHARED-CONTRIBUTION-POLICY.md`](docs/SHARED-CONTRIBUTION-POLICY.md) is the authoritative
+policy for cross-repository work: a missing generic capability is its own `nawara-frontend` task, branch and PR, never a
+side effect of a product task; the Frontend change merges first and the product adopts it afterwards in its own PR;
+products may stay on different compatible versions; the shared foundation does not impose one product appearance
+(Drive need not look like Admin); product token extensions never redefine a foundation-owned token name. A task here
+never includes product changes, and a product task never includes changes here.
+
 **Shared API quality** (§8): generic and documented public APIs; composition over giant configurable components; shared code owns
 no user-facing copy (labels are inputs/keys); WCAG 2.2 AA; English/French/Arabic and RTL (logical CSS properties); responsive;
 light/dark/system themes through semantic tokens; works inside a Tauri webview without importing Tauri; no secrets in browser

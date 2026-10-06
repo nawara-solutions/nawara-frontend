@@ -10,7 +10,9 @@ import {
   checkActionPins,
   checkClaudeSettings,
   checkCycles,
+  CONTRIBUTION_POLICY,
   checkPackageManifest,
+  checkPolicyDiscoverable,
   checkRootManifest,
   checkSharedStandard,
   checkSourceFile,
@@ -54,6 +56,12 @@ export function runChecks(root) {
       : checkRootManifest(JSON.parse(rootManifest))),
   );
   problems.push(...checkClaudeSettings(readIfExists(join(root, '.claude', 'settings.json'))));
+  problems.push(
+    ...checkPolicyDiscoverable({
+      policyText: readIfExists(join(root, CONTRIBUTION_POLICY)),
+      claudeText: readIfExists(join(root, 'CLAUDE.md')),
+    }),
+  );
 
   // 2. GitHub Actions pinning.
   const workflowDir = join(root, '.github', 'workflows');
@@ -149,7 +157,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     process.exit(1);
   }
   console.log(
-    `repository checks passed: root manifest, Claude hooks, ai-standard integration${standardPresent ? '' : ' (link targets only; ../ai-standard absent)'}, ` +
+    `repository checks passed: root manifest, Claude hooks, contribution policy link, ai-standard integration${standardPresent ? '' : ' (link targets only; ../ai-standard absent)'}, ` +
       `action pinning, untracked generated output, ${packageCount} workspace package(s): token-source stylesheets, layers, frameworks, names, publication boundary, install scripts, package-manager neutrality, dependency specs, cycles, declared and contained imports, product terms`,
   );
 }

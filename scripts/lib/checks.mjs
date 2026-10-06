@@ -430,3 +430,16 @@ export function checkClaudeSettings(text) {
   }
   return problems;
 }
+
+/** The cross-repository policy agents must be able to find: it exists, and CLAUDE.md (what agents read) links to it. */
+export const CONTRIBUTION_POLICY = 'docs/SHARED-CONTRIBUTION-POLICY.md';
+
+export function checkPolicyDiscoverable({ policyText, claudeText }) {
+  const problems = [];
+  if (policyText === undefined)
+    problems.push(`${CONTRIBUTION_POLICY}: missing (the shared contribution policy)`);
+  if (!(claudeText ?? '').includes(`(${CONTRIBUTION_POLICY})`)) {
+    problems.push(`CLAUDE.md: must link to ${CONTRIBUTION_POLICY} so agents can find the policy`);
+  }
+  return problems;
+}
