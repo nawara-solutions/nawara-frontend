@@ -1,8 +1,10 @@
 # Consuming nawara-frontend packages
 
-> **Status: direction accepted ([ADR-0002](adr/0002-package-scope-and-consumption-model.md)), nothing implemented.** No package
-> exists, nothing has been published, no registry, token, secret or release workflow has been created. The first publication
-> needs the release workflow and its own owner authorization.
+> **Status (2026-10-06): distribution implemented, nothing published.** `@nawara-solutions/design-tokens` 0.1.0 is bound to
+> GitHub Packages ([ADR-0002](adr/0002-package-scope-and-consumption-model.md)); the release process and its disabled workflow
+> are [ADR-0004](adr/0004-release-and-publication.md) and [`RELEASING.md`](RELEASING.md). No token, secret or registry setting
+> exists yet: the first publication needs the owner configuration in `RELEASING.md` and its own owner decision. No product
+> consumes a package yet; each adoption is that product's own authorized task.
 
 ## 1. Evidence (2026-10-05)
 
@@ -32,7 +34,7 @@
 GitHub Packages requires an npm scope equal to the owning account, so packages are `@nawara-solutions/*` (not `@nawara/*`, which
 is Core's internal workspace scope):
 
-- framework-independent: `@nawara-solutions/<name>` (for example `@nawara-solutions/design-tokens`, planned);
+- framework-independent: `@nawara-solutions/<name>` (for example `@nawara-solutions/design-tokens`);
 - Angular: `@nawara-solutions/angular-<name>` (for example `@nawara-solutions/angular-ui`, planned).
 
 `npm run check:repo` already enforces the names and refuses any package that is neither `private` nor bound to GitHub Packages
@@ -44,17 +46,21 @@ through `publishConfig.registry`.
   in the changelog); `1.0.0` once an API has two consumers and has been stable through one product release.
 - **Angular packages declare Angular as a peer dependency** with the major the products run (`^22.x`). Moving to a new Angular
   major is a major release of every Angular package. Products upgrade Angular and the Angular packages together.
-- A **changelog per package**. Release tooling (Changesets is the likely candidate for npm workspaces) is chosen in the release
-  ADR, not here.
+- A **changelog per package**. Versions are set explicitly in a reviewed release pull request; no release tool derives them
+  ([ADR-0004](adr/0004-release-and-publication.md)).
 - Products **pin exact versions** with their lockfile and receive updates through their own Dependabot pull requests.
 
-### Publication (future workflow, not created)
+### Publication
 
-- Only from a protected tag or release on `main`, by a dedicated workflow with `permissions: { contents: read, packages: write }`,
-  after the full validation, never from pull requests and never from a developer machine.
-- Build outputs are created in CI from a clean `npm ci --ignore-scripts`; `dist/` is never committed.
-- Provenance: npm's `--provenance` attestation is an npmjs.com feature; for GitHub Packages the equivalent is a GitHub artifact
-  attestation of the packed tarball. Verify the current support when the release workflow is designed.
+Implemented by [ADR-0004](adr/0004-release-and-publication.md); procedure and owner settings in [`RELEASING.md`](RELEASING.md).
+
+- Only from a release tag `<package directory>-v<version>` on a commit of `main`, by `.github/workflows/release.yml` with
+  `permissions: { contents: read, packages: write, id-token: write, attestations: write }`, after approval in the
+  `npm-publish` environment; never from pull requests and never from a developer machine. Disabled until the owner sets
+  `NPM_PUBLISH_ENABLED`.
+- The tarball is built in CI from a clean `npm ci --ignore-scripts`, checked by `scripts/check-release.mjs` (no credential or
+  registry configuration inside), attested with a GitHub artifact attestation, and published as that exact file. `dist/` is
+  never committed.
 
 ### Consumption from a product
 
@@ -73,6 +79,21 @@ Each product commits a project `.npmrc` that maps only the scope, never a creden
   (`//npm.pkg.github.com/:_authToken=…`), never in a repository. (GitHub Packages' npm registry does not accept fine-grained
   tokens at the time of writing; re-check before onboarding.)
 - **Docker builds** (Admin's production image) receive the token as a BuildKit secret mount, never as a build argument or layer.
+
+#### Setup by environment
+
+What a product needs once it adopts a package (each change is that product's own task). `NODE_AUTH_TOKEN` is the only variable
+name used.
+
+| Where | Configuration | Token |
+|---|---|---|
+| Project `.npmrc` (committed) | `@nawara-solutions:registry=https://npm.pkg.github.com` and, optionally, `//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}` (a reference; npm 11 tolerates it unset) | none |
+| Developer machine | user-level `~/.npmrc`: `//npm.pkg.github.com/:_authToken=<classic PAT, read:packages>`, or export `NODE_AUTH_TOKEN` | personal, never committed |
+| GitHub Actions | job `permissions: { contents: read, packages: read }`; `actions/setup-node` with `registry-url: https://npm.pkg.github.com` and `scope: '@nawara-solutions'`; `env: NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}` on the install step only | the job's `GITHUB_TOKEN`; the package grants the repository **Read** ([`RELEASING.md`](RELEASING.md#owner-configuration)) |
+| Docker build | `RUN --mount=type=secret,id=npm_token,env=NODE_AUTH_TOKEN npm ci --ignore-scripts` in the build stage (Dockerfile syntax 1.10 or later), with the project `.npmrc` reference above; the runtime stage copies only built output | passed with `docker build --secret id=npm_token,env=NODE_AUTH_TOKEN`, or `secrets: npm_token=${{ secrets.GITHUB_TOKEN }}` in `docker/build-push-action`; never `ARG`/`ENV`, never in a layer |
+
+A frontend bundle never contains the token: it is used only by the package manager at install time, and shared packages
+ship no install script and no configuration file (`check:release`).
 
 ### Package-manager neutrality (npm, pnpm, others)
 

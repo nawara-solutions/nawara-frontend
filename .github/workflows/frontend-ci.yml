@@ -45,3 +45,7 @@ jobs:
       # design-tokens, validation and contrast, determinism, the npm-pack tarball and an offline consumer install.
       - name: workspace packages (build, tests, pack and consumer proof)
         run: npm run test:packages
+      # ADR-0004: every publishable package is bound to GitHub Packages, has a changelog section for its version, and its
+      # real tarball holds no credential or registry configuration. Packs only; never publishes.
+      - name: release preflight (no publication)
+        run: npm run check:release

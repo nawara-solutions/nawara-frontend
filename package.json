@@ -17,11 +17,12 @@
   "scripts": {
     "prepare": "husky",
     "check:repo": "node scripts/check-repo.mjs",
-    "test:repo": "node --test scripts/check-repo.test.mjs",
+    "test:repo": "node --test scripts/check-repo.test.mjs scripts/check-release.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:packages": "npm run build --workspaces --if-present && npm test --workspaces --if-present",
-    "validate": "npm run format:check && npm run check:repo && npm run test:repo && npm run test:packages"
+    "validate": "npm run format:check && npm run check:repo && npm run test:repo && npm run test:packages && npm run check:release",
+    "check:release": "node scripts/check-release.mjs"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.3",

@@ -1,0 +1,69 @@
+name: Release
+
+# Publishes ONE workspace package to GitHub Packages (ADR-0002, ADR-0004) when a release tag `<package directory>-v<version>`
+# (for example `design-tokens-v0.1.0`) is pushed for a commit on main. The version and changelog date are decided in a
+# reviewed pull request first; this workflow never bumps a version, commits or pushes.
+#
+# Disabled until the owner has configured publication (docs/RELEASING.md §Owner configuration): the job runs only when the
+# repository variable NPM_PUBLISH_ENABLED is "true", and it waits for approval in the `npm-publish` environment.
+#
+# Credentials: only this job's GITHUB_TOKEN (packages: write), exposed to the single publish step. No stored secret; nothing
+# writes a token into the repository, the tarball or a build image.
+on:
+  push:
+    tags: ['*-v[0-9]*.[0-9]*.[0-9]*']
+
+permissions: {}
+
+# Releases never cancel each other; a second tag waits for the first.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: publish
+    if: vars.NPM_PUBLISH_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      # registry-url + scope write a temporary user .npmrc (outside the workspace) mapping @nawara-solutions to GitHub
+      # Packages with a ${NODE_AUTH_TOKEN} reference; the token itself is only set on the publish step.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+          registry-url: https://npm.pkg.github.com
+          scope: '@nawara-solutions'
+      - name: pin npm to package.json "packageManager"
+        run: npm install -g --ignore-scripts "$(node -p "require('./package.json').packageManager")"
+      - name: the tagged commit is on main
+        run: |
+          git fetch --no-tags origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      # The full repository validation, exactly as CI: format, architecture checks and their tests, every package's build
+      # and tests, and the release preflight of every publishable package.
+      - run: npm run validate
+      - name: check the tag and pack the release tarball
+        id: pack
+        run: node scripts/check-release.mjs --tag "$GITHUB_REF_NAME" --pack-destination "$RUNNER_TEMP/release"
+      - name: attest the tarball
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: ${{ steps.pack.outputs.tarball }}
+      # Publishes the attested file itself (no rebuild, no lifecycle script) to the registry the manifest is bound to.
+      - name: publish to GitHub Packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+          DIST_TAG: ${{ steps.pack.outputs.dist-tag }}
+        run: npm publish "$TARBALL" --ignore-scripts --tag "$DIST_TAG" --registry https://npm.pkg.github.com

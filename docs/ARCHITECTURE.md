@@ -8,10 +8,10 @@ for Nawara Admin is [`ADMIN-EXTRACTION-INVENTORY.md`](ADMIN-EXTRACTION-INVENTORY
 [`CONSUMPTION.md`](CONSUMPTION.md); the cross-repository process (contribution flow, version independence, product visual
 identity, product token extensions) is [`SHARED-CONTRIBUTION-POLICY.md`](SHARED-CONTRIBUTION-POLICY.md).
 
-## 0. Status (2026-10-05)
+## 0. Status (2026-10-06)
 
-**One package exists: `@nawara-solutions/design-tokens` 0.1.0** (`packages/foundation/design-tokens`, private, not
-published): design-token slices DT1 and DT2a of [ADR-0003](adr/0003-token-format-and-distribution.md); shadows (DT2b) are
+**One package exists: `@nawara-solutions/design-tokens` 0.1.0** (`packages/foundation/design-tokens`, bound to GitHub Packages, not yet published,
+[ADR-0004](adr/0004-release-and-publication.md)): design-token slices DT1 and DT2a of [ADR-0003](adr/0003-token-format-and-distribution.md); shadows (DT2b) are
 deferred. No product consumes
 it yet; Admin adoption is a later, separately authorized step. Everything below marked *planned* or *future* does not exist.
 
@@ -220,6 +220,5 @@ and an update to §5.
 
 ## 12. Not decided here
 
-- Release tooling (for example Changesets) and the version policy details — recommendation in [`CONSUMPTION.md`](CONSUMPTION.md).
 - Whether a showcase application is a workspace in this repository.
 - Whether School's React desktop consumes `foundation` packages.
