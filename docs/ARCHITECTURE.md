@@ -5,7 +5,8 @@ The root architecture document of this repository (the whole-repository ADD in t
 (layering), [ADR-0002](adr/0002-package-scope-and-consumption-model.md) (package scope and consumption) and
 [ADR-0003](adr/0003-token-format-and-distribution.md) (token format and distribution). The extraction plan
 for Nawara Admin is [`ADMIN-EXTRACTION-INVENTORY.md`](ADMIN-EXTRACTION-INVENTORY.md); the consumption model is
-[`CONSUMPTION.md`](CONSUMPTION.md).
+[`CONSUMPTION.md`](CONSUMPTION.md); the cross-repository process (contribution flow, version independence, product visual
+identity, product token extensions) is [`SHARED-CONTRIBUTION-POLICY.md`](SHARED-CONTRIBUTION-POLICY.md).
 
 ## 0. Status (2026-10-05)
 
