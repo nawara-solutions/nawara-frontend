@@ -3,8 +3,9 @@
 How a workspace package is published to GitHub Packages ([ADR-0004](adr/0004-release-and-publication.md), within
 [ADR-0002](adr/0002-package-scope-and-consumption-model.md)). How products install it: [`CONSUMPTION.md`](CONSUMPTION.md).
 
-> **Status (2026-10-06): the release workflow exists and is disabled.** Nothing has been published. Publication needs the
-> owner configuration below, then a release pull request and a tag, each an owner decision.
+> **Status (2026-10-06): the release workflow exists and is disabled.** Nothing has been published. `design-tokens` 0.1.0 is
+> prepared for release (changelog dated). Publication needs the owner configuration below (items 1–3 were not configured on
+> 2026-10-06), then the tag, each an owner decision.
 
 ## Owner configuration
 
@@ -15,7 +16,9 @@ are in place, `.github/workflows/release.yml` skips its job.
    creation, update and deletion to the owner (bypass list: repository admins only). A release tag is then an owner act, and a
    published tag cannot be moved.
 2. **Environment `npm-publish`** (Settings → Environments): required reviewer = the owner; deployment tags rule = `*-v*`
-   only (no branches). Create it before step 3: a job that names a missing environment would create it unprotected.
+   only (no branches). Create it before step 3: a job that names a missing environment would create it unprotected. Leave
+   "Prevent self-review" **off** while the owner is the only reviewer: the owner pushes the tag and approves the run, and with
+   it on nobody could approve.
 3. **Repository variable `NPM_PUBLISH_ENABLED` = `true`** (Settings → Secrets and variables → Actions → Variables). It
    switches the workflow on; deleting it switches publication off again. No secret is needed: the job uses its own
    `GITHUB_TOKEN`.
