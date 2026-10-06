@@ -75,7 +75,7 @@ describe('npm pack and consumer', () => {
     const manifest = JSON.parse(
       readFileSync(resolveFrom.resolve('@nawara-solutions/design-tokens/manifest.json'), 'utf8'),
     );
-    assert.equal(manifest.tokens.length, 101);
+    assert.equal(manifest.tokens.length, 147);
     assert.equal(
       JSON.parse(
         readFileSync(resolveFrom.resolve('@nawara-solutions/design-tokens/package.json'), 'utf8'),

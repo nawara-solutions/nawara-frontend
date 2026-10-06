@@ -405,3 +405,76 @@ describe('merged-tree typing (DTCG Resolver: sources merge into one tree)', () =
     }
   });
 });
+
+describe('DT2a data (status, alert, danger, scrim)', () => {
+  it('rejects an alert alias to a status-hue step that does not exist', () => {
+    rejects(
+      (c) => c.edit(LIGHT, (j) => void (j.alert.info.border.$value = '{ref.blue.400}')),
+      /unresolved alias \{ref\.blue\.400\}/,
+    );
+  });
+
+  it('rejects a status token defined in one theme only', () => {
+    rejects(
+      (c) => c.edit(DARK, (j) => void delete j.status.warning.bg),
+      /theme: status\.warning\.bg is in light but not in dark/,
+    );
+  });
+
+  it('rejects a new status hue without provenance, and a derived step without its reason', () => {
+    rejects(
+      (c) => c.edit(REFERENCE, (j) => void delete j.ref.green['700'].$extensions),
+      /ref\.green\.700: a reference value needs provenance/,
+    );
+    rejects(
+      (c) =>
+        c.edit(
+          REFERENCE,
+          (j) =>
+            void delete j.ref.amber['850'].$extensions['com.nawara-solutions.provenance'].reason,
+        ),
+      /a derived value needs a provenance reason/,
+    );
+  });
+
+  it('rejects a scrim without provenance (a raw value)', () => {
+    rejects(
+      (c) => c.edit(LIGHT, (j) => void delete j.scrim.$extensions),
+      /scrim: a raw theme\/accent value needs provenance/,
+    );
+  });
+
+  it('rejects product presentation entering the status family', () => {
+    rejects((c) => {
+      for (const f of [LIGHT, DARK])
+        c.edit(
+          f,
+          (j) =>
+            void (j.status.urgent = {
+              fg: { $value: '{ref.coral.700}' },
+              bg: { $value: '{ref.coral.50}' },
+            }),
+        );
+    }, /"urgent" names product presentation or artwork/);
+  });
+
+  it('rejects an alert pair that loses contrast', () => {
+    rejects(
+      (c) => c.edit(DARK, (j) => void (j.alert.success.fg.$value = '{ref.green.850}')),
+      /contrast dark\/default: --nw-alert-success-fg on --nw-alert-success-bg = \d+\.\d+ \(needs 4\.5\)/,
+    );
+  });
+
+  it('rejects a shadow token: shadow composites are deferred to DT2b', () => {
+    rejects((c) => {
+      for (const f of [LIGHT, DARK])
+        c.edit(
+          f,
+          (j) =>
+            void (j.shadow = {
+              md: { $type: 'shadow', $value: { offsetX: { value: 0, unit: 'px' } } },
+            }),
+        );
+    }, /unknown \$type "shadow"/);
+  });
+});
