@@ -20,6 +20,11 @@ const PUBLIC = {
     names(`ref-coral-50 ref-coral-100 ref-coral-200 ref-coral-300 ref-coral-400 ref-coral-500 ref-coral-600
     ref-coral-700 ref-coral-800 ref-coral-900 ref-coral-950 ref-ink-0 ref-ink-50 ref-ink-100 ref-ink-200 ref-ink-300
     ref-ink-400 ref-ink-450 ref-ink-475 ref-ink-500 ref-ink-600 ref-ink-700 ref-ink-750 ref-ink-800 ref-ink-850 ref-ink-900`),
+  // DT2a: the functional status hues, exactly the steps the shared semantic tokens use.
+  referenceDt2a:
+    names(`ref-green-50 ref-green-200 ref-green-300 ref-green-700 ref-green-850 ref-green-900 ref-amber-50
+    ref-amber-200 ref-amber-300 ref-amber-700 ref-amber-850 ref-amber-900 ref-blue-50 ref-blue-200 ref-blue-300
+    ref-blue-600 ref-blue-850 ref-blue-900`),
   scale:
     names(`control-height-md control-height-sm duration-base duration-fast duration-slow ease-emphasized
     ease-standard focus-ring-offset focus-ring-width font-arabic font-latin font-mono font-sans font-weight-bold
@@ -32,7 +37,16 @@ const PUBLIC = {
     color-primary color-primary-active color-primary-hover color-primary-subtle focus-halo focus-ring surface-brand-subtle
     surface-overlay surface-page surface-raised surface-sunken text-brand text-disabled text-label text-link
     text-on-primary text-primary text-secondary`),
+  // DT2a: danger action, status, alert and scrim.
+  semanticDt2a:
+    names(`color-danger-hover color-danger-active text-on-danger status-success-fg status-success-bg
+    status-warning-fg status-warning-bg status-danger-fg status-danger-bg status-info-fg status-info-bg alert-danger-bg
+    alert-danger-fg alert-danger-border alert-danger-icon alert-warning-bg alert-warning-fg alert-warning-border
+    alert-warning-icon alert-info-bg alert-info-fg alert-info-border alert-info-icon alert-success-bg alert-success-fg
+    alert-success-border alert-success-icon scrim`),
 };
+PUBLIC.reference.push(...PUBLIC.referenceDt2a);
+PUBLIC.semantic.push(...PUBLIC.semanticDt2a);
 
 const files = compile(SRC_DIR, PACKAGE_JSON);
 const css = files['tokens.css'];
@@ -74,7 +88,7 @@ describe('public names', () => {
         tier,
       );
     }
-    assert.equal(manifest.tokens.length, 101);
+    assert.equal(manifest.tokens.length, 147, 'DT1 101 + DT2a 46');
     assert.deepEqual(
       Object.keys(blockDeclarations(':root'))
         .filter((n) => n.startsWith('--'))
@@ -83,10 +97,10 @@ describe('public names', () => {
     );
   });
 
-  it('never emits breakpoints, artwork, product or component tokens as custom properties', () => {
+  it('never emits breakpoints, shadows (DT2b, deferred), artwork, product or component tokens as custom properties', () => {
     assert.doesNotMatch(
       css,
-      /--nw-(breakpoint|logo|sidebar|workspace|chart|swatch|button|status|alert|shadow|scrim)/,
+      /--nw-(breakpoint|shadow|logo|sidebar|workspace|chart|swatch|avatar|urgent|accent-|button|inline-alert|status-badge|toast)/,
     );
   });
 });
@@ -271,5 +285,76 @@ describe('build output', () => {
     } finally {
       copy.cleanup();
     }
+  });
+});
+
+describe('DT2a: status, alert, danger and scrim', () => {
+  it('resolves the danger action, status and alert semantics per theme', () => {
+    assert.deepEqual(token('--nw-color-danger-hover').values, {
+      light: '#a01c1f',
+      dark: '#ff9597',
+    });
+    assert.deepEqual(token('--nw-text-on-danger').values, { light: '#ffffff', dark: '#17131f' });
+    assert.deepEqual(token('--nw-status-success-fg').values, { light: '#15803d', dark: '#86d9a3' });
+    assert.deepEqual(token('--nw-status-warning-bg').values, { light: '#fef4e6', dark: '#3d2826' });
+    assert.deepEqual(token('--nw-alert-info-fg').values, { light: '#17131f', dark: '#ffffff' });
+    assert.deepEqual(token('--nw-alert-warning-border').values, {
+      light: '#f5cf9c',
+      dark: '#6b4a2a',
+    });
+    const dark = blockDeclarations("[data-theme='dark']");
+    assert.equal(dark['--nw-status-info-fg'], 'var(--nw-ref-blue-300)');
+    assert.equal(dark['--nw-alert-danger-icon'], 'var(--nw-ref-coral-300)');
+  });
+
+  it('emits the scrim as a colour with transparency, in both themes and the system rule', () => {
+    assert.equal(blockDeclarations(':root')['--nw-scrim'], 'rgb(23 19 31 / 48%)');
+    assert.equal(blockDeclarations("[data-theme='dark']")['--nw-scrim'], 'rgb(0 0 0 / 64%)');
+    assert.equal(blockDeclarations('  :root:not([data-theme])')['--nw-scrim'], 'rgb(0 0 0 / 64%)');
+    assert.deepEqual(token('--nw-scrim'), {
+      name: '--nw-scrim',
+      tier: 'semantic',
+      type: 'color',
+      values: { light: 'rgb(23 19 31 / 48%)', dark: 'rgb(0 0 0 / 64%)' },
+      provenance: 'derived',
+    });
+  });
+
+  it('keeps danger and status out of the accent contract: an accent never recolours severity', () => {
+    assert.equal(manifest.accentControlled.length, 11);
+    assert.ok(!manifest.accentControlled.some((n) => /danger|status|alert|scrim/.test(n)));
+  });
+
+  it('records provenance on the new status hues, with reasons for the derived steps', () => {
+    for (const name of PUBLIC.referenceDt2a)
+      assert.ok(['design', 'derived'].includes(token(name).provenance), name);
+    const derived = PUBLIC.referenceDt2a.filter((n) => token(n).provenance === 'derived').sort();
+    assert.deepEqual(derived, [
+      '--nw-ref-amber-850',
+      '--nw-ref-amber-900',
+      '--nw-ref-blue-200',
+      '--nw-ref-blue-850',
+      '--nw-ref-blue-900',
+    ]);
+  });
+
+  it('checks 71 contrast pairs (40 DT1 + 31 DT2a) in both themes', () => {
+    const config = JSON.parse(readFileSync(join(SRC_DIR, 'contrast.pairs.json'), 'utf8'));
+    const pairs = config.groups.flatMap((g) =>
+      g.foregrounds.flatMap((fg) => g.backgrounds.map((bg) => [fg, bg, g.min])),
+    );
+    assert.equal(pairs.length, 71);
+    assert.ok(
+      pairs.some(
+        ([fg, bg, min]) =>
+          fg === '--nw-alert-warning-icon' && bg === '--nw-alert-warning-bg' && min === 3,
+      ),
+    );
+    assert.ok(
+      pairs.some(
+        ([fg, bg, min]) =>
+          fg === '--nw-status-danger-fg' && bg === '--nw-color-neutral-hover' && min === 4.5,
+      ),
+    );
   });
 });

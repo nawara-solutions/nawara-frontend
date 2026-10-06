@@ -3,9 +3,12 @@
 Nawara foundation design tokens, framework-independent ([ADR-0003](../../../docs/adr/0003-token-format-and-distribution.md)).
 One DTCG 2025.10 source (`src/`) generates three artifacts; consumers use the artifacts and never run the generator.
 
-> **Status: 0.1.0, private, not published** (DT1). It contains the core foundation set: the coral + ink reference
-> palette, the theme-independent scales, the core semantic tokens in light and dark (all 11 accent-controlled tokens) and
-> the breakpoints. Status, alert, danger, shadow and scrim tokens follow in DT2. No product consumes the package yet.
+> **Status: 0.1.0, private, not published** (DT1 + DT2a). It contains the foundation set: the coral + ink brand palette
+> and the green/amber/blue status hues, the theme-independent scales, the semantic tokens in light and dark (surfaces,
+> text, borders, actions and focus with all 11 accent-controlled tokens; danger actions, status, alerts and the scrim) and
+> the breakpoints. **Shadows are deferred (DT2b):** the shared shadows are DTCG `shadow` composites, which the generator
+> does not support; supporting them is a tooling decision (see the trigger below), taken when a shared component needs
+> foundation-owned shadows. Until then products define `--nw-shadow-*` themselves. No product consumes the package yet.
 
 ## Consumer contract
 

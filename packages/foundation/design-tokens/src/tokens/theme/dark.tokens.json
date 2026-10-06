@@ -39,6 +39,9 @@
     },
     "on-primary": {
       "$value": "{ref.ink.900}"
+    },
+    "on-danger": {
+      "$value": "{ref.ink.900}"
     }
   },
   "border": {
@@ -75,6 +78,12 @@
     },
     "neutral-active": {
       "$value": "{ref.ink.700}"
+    },
+    "danger-hover": {
+      "$value": "{ref.coral.300}"
+    },
+    "danger-active": {
+      "$value": "{ref.coral.200}"
     }
   },
   "focus": {
@@ -96,6 +105,118 @@
           "source": "derived",
           "reason": "coral 400 at 30% opacity: the soft ring around a focused field on dark grounds"
         }
+      }
+    }
+  },
+  "status": {
+    "$description": "Status: text and background of a state indicator; never colour alone.",
+    "$type": "color",
+    "success": {
+      "fg": {
+        "$value": "{ref.green.300}"
+      },
+      "bg": {
+        "$value": "{ref.green.900}"
+      }
+    },
+    "warning": {
+      "fg": {
+        "$value": "{ref.amber.300}"
+      },
+      "bg": {
+        "$value": "{ref.amber.900}"
+      }
+    },
+    "danger": {
+      "fg": {
+        "$value": "{ref.coral.200}"
+      },
+      "bg": {
+        "$value": "{ref.coral.900}"
+      }
+    },
+    "info": {
+      "fg": {
+        "$value": "{ref.blue.300}"
+      },
+      "bg": {
+        "$value": "{ref.blue.900}"
+      }
+    }
+  },
+  "alert": {
+    "$description": "Inline alerts: background, text, border and icon per tone.",
+    "$type": "color",
+    "danger": {
+      "bg": {
+        "$value": "{ref.coral.900}"
+      },
+      "fg": {
+        "$value": "{ref.coral.200}"
+      },
+      "border": {
+        "$value": "{ref.coral.800}"
+      },
+      "icon": {
+        "$value": "{ref.coral.300}"
+      }
+    },
+    "warning": {
+      "bg": {
+        "$value": "{ref.amber.900}"
+      },
+      "fg": {
+        "$value": "{ref.amber.300}"
+      },
+      "border": {
+        "$value": "{ref.amber.850}"
+      },
+      "icon": {
+        "$value": "{ref.amber.300}"
+      }
+    },
+    "info": {
+      "bg": {
+        "$value": "{ref.blue.900}"
+      },
+      "fg": {
+        "$value": "{ref.ink.0}"
+      },
+      "border": {
+        "$value": "{ref.blue.850}"
+      },
+      "icon": {
+        "$value": "{ref.blue.300}"
+      }
+    },
+    "success": {
+      "bg": {
+        "$value": "{ref.green.900}"
+      },
+      "fg": {
+        "$value": "{ref.green.300}"
+      },
+      "border": {
+        "$value": "{ref.green.850}"
+      },
+      "icon": {
+        "$value": "{ref.green.300}"
+      }
+    }
+  },
+  "scrim": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [0.0, 0.0, 0.0],
+      "alpha": 0.64,
+      "hex": "#000000"
+    },
+    "$description": "Backdrop behind modal overlays (dialogs, drawers).",
+    "$extensions": {
+      "com.nawara-solutions.provenance": {
+        "source": "derived",
+        "reason": "black at 64% opacity: the backdrop behind modal overlays on dark grounds"
       }
     }
   }

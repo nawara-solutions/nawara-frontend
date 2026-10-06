@@ -3,8 +3,8 @@
 The shared frontend platform of the **Nawara** ecosystem (Nawara Solutions): framework-independent frontend foundations and
 framework-specific shared implementations, consumed by independent Nawara products.
 
-> **Status: first package in place, nothing published.** `@nawara-solutions/design-tokens` 0.1.0 (private) holds the core
-> foundation tokens (DT1 of [ADR-0003](docs/adr/0003-token-format-and-distribution.md)). No product consumes it yet; Admin
+> **Status: first package in place, nothing published.** `@nawara-solutions/design-tokens` 0.1.0 (private) holds the
+> foundation tokens (DT1 + DT2a of [ADR-0003](docs/adr/0003-token-format-and-distribution.md)). No product consumes it yet; Admin
 > adoption and further extraction ([inventory](docs/ADMIN-EXTRACTION-INVENTORY.md)) are later, separately authorized phases.
 
 ## What it is
@@ -53,7 +53,7 @@ Details: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 | Package | Layer | State |
 |---|---|---|
-| [`@nawara-solutions/design-tokens`](packages/foundation/design-tokens/README.md) | foundation | **0.1.0, private** — core foundation tokens (DT1); status, alert, danger, shadow and scrim tokens follow (DT2) |
+| [`@nawara-solutions/design-tokens`](packages/foundation/design-tokens/README.md) | foundation | **0.1.0, private** — foundation tokens (DT1 + DT2a: brand palette, scales, semantic, status, alert, danger, scrim, breakpoints); shadows deferred (DT2b) |
 | `@nawara-solutions/angular-ui` | angular | **planned**, not created |
 
 Future framework layers (`vue`, `react`, …) are **possibilities only**; see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §10

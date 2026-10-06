@@ -59,6 +59,96 @@
         "--nw-surface-overlay"
       ],
       "min": 3
+    },
+    {
+      "foregrounds": ["--nw-status-success-fg"],
+      "backgrounds": ["--nw-status-success-bg"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-status-warning-fg"],
+      "backgrounds": ["--nw-status-warning-bg"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-status-danger-fg"],
+      "backgrounds": ["--nw-status-danger-bg"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-status-info-fg"],
+      "backgrounds": ["--nw-status-info-bg"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": [
+        "--nw-status-success-fg",
+        "--nw-status-warning-fg",
+        "--nw-status-danger-fg",
+        "--nw-status-info-fg"
+      ],
+      "backgrounds": ["--nw-surface-raised", "--nw-surface-overlay"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-text-on-danger"],
+      "backgrounds": ["--nw-color-danger-hover", "--nw-color-danger-active"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-color-danger-hover", "--nw-status-danger-fg"],
+      "backgrounds": [
+        "--nw-surface-page",
+        "--nw-surface-raised",
+        "--nw-surface-sunken",
+        "--nw-surface-overlay"
+      ],
+      "min": 3
+    },
+    {
+      "foregrounds": ["--nw-status-danger-fg"],
+      "backgrounds": ["--nw-color-neutral-hover"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-alert-danger-fg"],
+      "backgrounds": ["--nw-alert-danger-bg"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-alert-danger-icon"],
+      "backgrounds": ["--nw-alert-danger-bg"],
+      "min": 3
+    },
+    {
+      "foregrounds": ["--nw-alert-warning-fg"],
+      "backgrounds": ["--nw-alert-warning-bg"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-alert-warning-icon"],
+      "backgrounds": ["--nw-alert-warning-bg"],
+      "min": 3
+    },
+    {
+      "foregrounds": ["--nw-alert-info-fg"],
+      "backgrounds": ["--nw-alert-info-bg"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-alert-info-icon"],
+      "backgrounds": ["--nw-alert-info-bg"],
+      "min": 3
+    },
+    {
+      "foregrounds": ["--nw-alert-success-fg"],
+      "backgrounds": ["--nw-alert-success-bg"],
+      "min": 4.5
+    },
+    {
+      "foregrounds": ["--nw-alert-success-icon"],
+      "backgrounds": ["--nw-alert-success-bg"],
+      "min": 3
     }
   ]
 }

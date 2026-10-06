@@ -9,9 +9,9 @@ layer) and framework-specific shared implementations (`angular` layer first), co
 (Nawara Admin, Nawara Drive, Nawara School, future products) as versioned packages. It is **not** an application, **not** a
 product, and **not** "one Angular app for everything". Full model: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
-**Current state: one package, `@nawara-solutions/design-tokens` 0.1.0** (private, not published, no consumer yet; DT1 of
-ADR-0003). Its `src/` JSON is the token source of truth and `dist/` is generated, never edited or committed. Further slices
-(DT2 data, Admin adoption, other extractions from [`docs/ADMIN-EXTRACTION-INVENTORY.md`](docs/ADMIN-EXTRACTION-INVENTORY.md))
+**Current state: one package, `@nawara-solutions/design-tokens` 0.1.0** (private, not published, no consumer yet; DT1 +
+DT2a of ADR-0003). Its `src/` JSON is the token source of truth and `dist/` is generated, never edited or committed. Further slices
+(DT2b shadows, deferred until a shared component needs them; Admin adoption; other extractions from [`docs/ADMIN-EXTRACTION-INVENTORY.md`](docs/ADMIN-EXTRACTION-INVENTORY.md))
 happen only when the owner authorizes them.
 
 ## Shared AI-Agent Workflow Standard

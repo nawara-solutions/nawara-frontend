@@ -10,7 +10,8 @@ for Nawara Admin is [`ADMIN-EXTRACTION-INVENTORY.md`](ADMIN-EXTRACTION-INVENTORY
 ## 0. Status (2026-10-05)
 
 **One package exists: `@nawara-solutions/design-tokens` 0.1.0** (`packages/foundation/design-tokens`, private, not
-published), the first design-token slice (DT1) of [ADR-0003](adr/0003-token-format-and-distribution.md). No product consumes
+published): design-token slices DT1 and DT2a of [ADR-0003](adr/0003-token-format-and-distribution.md); shadows (DT2b) are
+deferred. No product consumes
 it yet; Admin adoption is a later, separately authorized step. Everything below marked *planned* or *future* does not exist.
 
 ## 1. What this repository is, and is not
