@@ -3,12 +3,25 @@
 Nawara foundation design tokens, framework-independent ([ADR-0003](../../../docs/adr/0003-token-format-and-distribution.md)).
 One DTCG 2025.10 source (`src/`) generates three artifacts; consumers use the artifacts and never run the generator.
 
-> **Status: 0.1.0, private, not published** (DT1 + DT2a). It contains the foundation set: the coral + ink brand palette
+> **Status: 0.1.0, bound to GitHub Packages, not yet published** (DT1 + DT2a; releasing: [`docs/RELEASING.md`](../../../docs/RELEASING.md)). It contains the foundation set: the coral + ink brand palette
 > and the green/amber/blue status hues, the theme-independent scales, the semantic tokens in light and dark (surfaces,
 > text, borders, actions and focus with all 11 accent-controlled tokens; danger actions, status, alerts and the scrim) and
 > the breakpoints. **Shadows are deferred (DT2b):** the shared shadows are DTCG `shadow` composites, which the generator
 > does not support; supporting them is a tooling decision (see the trigger below), taken when a shared component needs
 > foundation-owned shadows. Until then products define `--nw-shadow-*` themselves. No product consumes the package yet.
+
+## Installation
+
+Published to GitHub Packages only (not npmjs.com), once released. A product maps the scope in its committed `.npmrc` and
+authenticates with a `read:packages` token; CI and Docker setups are in [`docs/CONSUMPTION.md`](../../../docs/CONSUMPTION.md#setup-by-environment).
+
+```ini
+@nawara-solutions:registry=https://npm.pkg.github.com
+```
+
+```sh
+npm install --save-exact @nawara-solutions/design-tokens   # pnpm add -E @nawara-solutions/design-tokens
+```
 
 ## Consumer contract
 

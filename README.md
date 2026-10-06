@@ -3,7 +3,8 @@
 The shared frontend platform of the **Nawara** ecosystem (Nawara Solutions): framework-independent frontend foundations and
 framework-specific shared implementations, consumed by independent Nawara products.
 
-> **Status: first package in place, nothing published.** `@nawara-solutions/design-tokens` 0.1.0 (private) holds the
+> **Status: first package ready for distribution, nothing published.** `@nawara-solutions/design-tokens` 0.1.0 (bound to GitHub Packages, not yet published; release
+> process: [ADR-0004](docs/adr/0004-release-and-publication.md), [`docs/RELEASING.md`](docs/RELEASING.md)) holds the
 > foundation tokens (DT1 + DT2a of [ADR-0003](docs/adr/0003-token-format-and-distribution.md)). No product consumes it yet; Admin
 > adoption and further extraction ([inventory](docs/ADMIN-EXTRACTION-INVENTORY.md)) are later, separately authorized phases.
 
@@ -53,12 +54,13 @@ Details: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 | Package | Layer | State |
 |---|---|---|
-| [`@nawara-solutions/design-tokens`](packages/foundation/design-tokens/README.md) | foundation | **0.1.0, private** — foundation tokens (DT1 + DT2a: brand palette, scales, semantic, status, alert, danger, scrim, breakpoints); shadows deferred (DT2b) |
+| [`@nawara-solutions/design-tokens`](packages/foundation/design-tokens/README.md) | foundation | **0.1.0, bound to GitHub Packages, not yet published** — foundation tokens (DT1 + DT2a: brand palette, scales, semantic, status, alert, danger, scrim, breakpoints); shadows deferred (DT2b) |
 | `@nawara-solutions/angular-ui` | angular | **planned**, not created |
 
 Future framework layers (`vue`, `react`, …) are **possibilities only**; see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §10
 for how Angular, React, Vue, React Native, Flutter and Tauri fit. Consumption (GitHub Packages, versioning, local development) is
-described in [`docs/CONSUMPTION.md`](docs/CONSUMPTION.md) and accepted in [ADR-0002](docs/adr/0002-package-scope-and-consumption-model.md); nothing is published yet.
+described in [`docs/CONSUMPTION.md`](docs/CONSUMPTION.md) and accepted in [ADR-0002](docs/adr/0002-package-scope-and-consumption-model.md); releasing is [`docs/RELEASING.md`](docs/RELEASING.md)
+([ADR-0004](docs/adr/0004-release-and-publication.md)). Nothing is published yet.
 
 ## Repository structure
 
@@ -67,15 +69,16 @@ nawara-frontend/
 ├── CLAUDE.md                     agent instructions (ai-standard section + frontend platform rules)
 ├── CONTRIBUTING.md               → ../ai-standard/CONTRIBUTING.md (symlink)
 ├── package.json                  npm workspaces (packages/*/*), scripts, dev tooling
-├── scripts/                      check-repo.mjs (boundary/safety checks) + tests
+├── scripts/                      check-repo.mjs (boundary/safety checks), check-release.mjs (release preflight) + tests
 ├── docs/
 │   ├── ARCHITECTURE.md           the platform architecture (authority)
-│   ├── CONSUMPTION.md            how products will consume packages (recommendation)
+│   ├── CONSUMPTION.md            how products consume packages (development, CI, Docker)
+│   ├── RELEASING.md              how a package is released; owner configuration
 │   ├── ADMIN-EXTRACTION-INVENTORY.md
 │   ├── README.md                 → ai-standard design-doc process (symlink)
 │   └── adr/ add/ sdd/ tdd/       design docs (templates symlinked, indexes local)
 ├── .claude/                      shared commands/agents/hook (symlinks), settings, /reuse-check
-├── .github/                      CI (validation only), Dependabot, PR template
+├── .github/                      CI (validation only), release workflow (tag-triggered, disabled until configured), Dependabot, PR template
 └── packages/                     foundation/design-tokens today; later foundation/<name>, angular/<name>
 ```
 

@@ -2,7 +2,7 @@
 
 All notable changes to `@nawara-solutions/design-tokens`. Versioning rules: [README](README.md#versioning).
 
-## 0.1.0 (unreleased, private)
+## 0.1.0 (unreleased)
 
 - First foundation slice (DT1): 26 reference colours (coral and ink), 51 scale tokens, 24 semantic tokens in light and
   dark, 4 breakpoints; generated `tokens.css`, `breakpoints.scss` and `manifest.json`.
@@ -11,3 +11,5 @@ All notable changes to `@nawara-solutions/design-tokens`. Versioning rules: [REA
   (`--nw-color-danger-hover`, `-active`, `--nw-text-on-danger`), status (`--nw-status-*-fg`, `-bg`), alerts
   (`--nw-alert-*-bg`, `-fg`, `-border`, `-icon`) and `--nw-scrim`; 31 more contrast pairs (71 in total).
 - Shadows are not included (DT2b, deferred): they need DTCG `shadow` composites.
+- Distribution (ADR-0004): bound to GitHub Packages (`publishConfig.registry`), `"license": "UNLICENSED"`; released by tag
+  `design-tokens-v0.1.0` once this section is dated in a release pull request.

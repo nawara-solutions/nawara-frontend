@@ -9,8 +9,9 @@ layer) and framework-specific shared implementations (`angular` layer first), co
 (Nawara Admin, Nawara Drive, Nawara School, future products) as versioned packages. It is **not** an application, **not** a
 product, and **not** "one Angular app for everything". Full model: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
-**Current state: one package, `@nawara-solutions/design-tokens` 0.1.0** (private, not published, no consumer yet; DT1 +
-DT2a of ADR-0003). Its `src/` JSON is the token source of truth and `dist/` is generated, never edited or committed. Further slices
+**Current state: one package, `@nawara-solutions/design-tokens` 0.1.0** (bound to GitHub Packages, not yet published, no consumer yet; DT1 +
+DT2a of ADR-0003). Releases follow [ADR-0004](docs/adr/0004-release-and-publication.md) and [`docs/RELEASING.md`](docs/RELEASING.md):
+a reviewed version bump, then an owner tag; the release workflow is disabled until the owner configures it. Its `src/` JSON is the token source of truth and `dist/` is generated, never edited or committed. Further slices
 (DT2b shadows, deferred until a shared component needs them; Admin adoption; other extractions from [`docs/ADMIN-EXTRACTION-INVENTORY.md`](docs/ADMIN-EXTRACTION-INVENTORY.md))
 happen only when the owner authorizes them.
 
@@ -113,7 +114,8 @@ Repository command: `/reuse-check`.
 | `npm run test:repo` | the checks' own tests (`node:test`) |
 | `npm run format` / `npm run format:check` | Prettier write / check |
 | `npm run test:packages` | every workspace package: build, then its tests (design-tokens: validation, contrast, determinism, npm-pack and consumer proof) |
-| `npm run validate` | **format:check → check:repo → test:repo → test:packages**: run before every commit and before reporting work complete |
+| `npm run check:release` | release preflight (ADR-0004): every publishable package is bound to GitHub Packages, has a changelog section for its version, and its real tarball holds no credential or registry configuration; never publishes |
+| `npm run validate` | **format:check → check:repo → test:repo → test:packages → check:release**: run before every commit and before reporting work complete |
 
 Toolchain: Node 24.18.0 (`.node-version`), npm 11.16.0 (`packageManager`), npm workspaces `packages/*/*`. Install with
 `npm install`; CI uses `npm ci --ignore-scripts`. TypeScript, ESLint, Vitest and ng-packagr are added with the first Angular

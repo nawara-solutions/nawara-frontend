@@ -52,4 +52,5 @@ and any install-time lifecycle script.
   organization on npmjs.com without publishing there.
 - **Follow-up:** a release ADR/TDD (tooling such as Changesets, changelogs, the publish workflow and its attestation) before the
   first publication; product-side `.npmrc` and CI changes in each product's own authorized task; update Admin's documents that
-  name `@nawara/frontend-kit`.
+  name `@nawara/frontend-kit`. *(2026-10-06: the release follow-up is [ADR-0004](0004-release-and-publication.md), which chose
+  explicit versions and a tag-triggered workflow over Changesets; this decision is unchanged.)*

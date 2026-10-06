@@ -1,12 +1,15 @@
 {
   "name": "@nawara-solutions/design-tokens",
   "version": "0.1.0",
-  "private": true,
   "description": "Nawara foundation design tokens: one DTCG 2025.10 source generating CSS custom properties, a Sass breakpoint module and a resolved-value manifest",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nawara-solutions/nawara-frontend.git",
     "directory": "packages/foundation/design-tokens"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "type": "module",
   "sideEffects": [
