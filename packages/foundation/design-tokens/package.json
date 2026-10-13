@@ -33,6 +33,6 @@
     "prepack": "node scripts/build.mjs"
   },
   "devDependencies": {
-    "sass": "1.104.1"
+    "sass": "1.105.1"
   }
 }
